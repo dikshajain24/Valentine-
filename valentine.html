@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Be My Valentine 💖</title>
+
+<style>
+body {
+  margin: 0;
+  height: 100vh;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #ffafbd, #ffc3a0);
+  font-family: 'Comic Sans MS', cursive;
+}
+
+/* Card */
+.card {
+  background: white;
+  padding: 40px;
+  border-radius: 25px;
+  text-align: center;
+  box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+  width: 340px;
+  z-index: 2;
+}
+
+h1 {
+  color: #ff4d6d;
+}
+
+p {
+  color: #444;
+}
+
+/* Buttons */
+button {
+  padding: 14px 26px;
+  font-size: 1.1rem;
+  border: none;
+  border-radius: 14px;
+  margin: 10px;
+  cursor: pointer;
+}
+
+.yes {
+  background: #ff4d6d;
+  color: white;
+}
+
+.no {
+  background: #adb5bd;
+  color: white;
+  position: relative;
+}
+
+/* Floating hearts */
+.heart {
+  position: absolute;
+  bottom: -20px;
+  font-size: 22px;
+  animation: float 6s linear infinite;
+  opacity: 0.8;
+}
+
+@keyframes float {
+  0% { transform: translateY(0) scale(1); opacity: 1; }
+  100% { transform: translateY(-100vh) scale(1.5); opacity: 0; }
+}
+</style>
+</head>
+
+<body>
+
+<div class="card" id="card">
+  <h1>Hey boo 👀💖</h1>
+  <p>I have something very important…</p>
+  <button class="yes" onclick="next()">Okay bhalla 😌</button>
+</div>
+
+<audio id="music" loop>
+  <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3">
+</audio>
+
+<script>
+let step = 0;
+const funnyWords = [
+  "Bhalla 😤",
+  "Boooo 😏",
+  "Shappuppaapuu 🫣",
+  "Don’t lie now 😌",
+  "You know you want to 😈"
+];
+
+function next() {
+  step++;
+  const card = document.getElementById("card");
+
+  if (step === 1) {
+    card.innerHTML = `
+      <h1>You’re my favorite human 🥺</h1>
+      <p>Yes YOU, boo 💕</p>
+      <button class="yes" onclick="next()">Stoppp 🙈</button>
+    `;
+  }
+
+  else if (step === 2) {
+    card.innerHTML = `
+      <h1>I miss you sometimes 😌</h1>
+      <p>Okay maybe all the time</p>
+      <button class="yes" onclick="next()">Bhalla 😳</button>
+    `;
+  }
+
+  else if (step === 3) {
+    card.innerHTML = `
+      <h1>Okay serious question now 👀</h1>
+      <p>No drama please 😇</p>
+      <button class="yes" onclick="showQuestion()">Tell meeee</button>
+    `;
+  }
+}
+
+function showQuestion() {
+  const card = document.getElementById("card");
+  card.innerHTML = `
+    <h1>Will you be my Valentine? 💘</h1>
+    <button class="yes" onclick="yes()">YES 💕</button>
+    <button class="no" id="noBtn" onclick="noClicked()">NO 🙃</button>
+  `;
+}
+
+function noClicked() {
+  const noBtn = document.getElementById("noBtn");
+
+  // Pick random funny message
+  const msg = funnyWords[Math.floor(Math.random() * funnyWords.length)];
+
+  // Turn NO into YES
+  noBtn.innerText = msg;
+  noBtn.className = "yes";
+
+  // Make it float away
+  noBtn.style.position = "absolute";
+  noBtn.style.left = Math.random() * 260 + "px";
+  noBtn.style.top = Math.random() * 220 + "px";
+
+  // Keep teasing on every click
+  noBtn.onclick = () => {
+    noBtn.innerText = funnyWords[Math.floor(Math.random() * funnyWords.length)];
+    noBtn.style.left = Math.random() * 260 + "px";
+    noBtn.style.top = Math.random() * 220 + "px";
+  };
+}
+
+function yes() {
+  document.getElementById("music").play();
+  startHearts();
+
+  document.body.innerHTML = `
+    <div style="
+      height:100vh;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      flex-direction:column;
+      background:#ffccd5;
+      font-family:Comic Sans MS;
+      text-align:center;">
+      <h1>WELCOME TO YES HEAVEN 💖✨</h1>
+      <p>Boo + Bhalla + Shappuppaapuu = Valentine 🥰</p>
+    </div>
+  `;
+}
+
+function startHearts() {
+  setInterval(() => {
+    const heart = document.createElement("div");
+    heart.className = "heart";
+    heart.innerHTML = "💖";
+    heart.style.left = Math.random() * 100 + "vw";
+    heart.style.animationDuration = (Math.random() * 3 + 3) + "s";
+    document.body.appendChild(heart);
+    setTimeout(() => heart.remove(), 6000);
+  }, 300);
+}
+</script>
+
+</body>
+</html>
